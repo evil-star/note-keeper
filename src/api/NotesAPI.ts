@@ -1,27 +1,39 @@
+import { NoteType } from "./../types/note";
 const NotesAPI = {
-	getNotes() {
-		return new Promise((res, rej) => {
-            const storageNotes = localStorage.getItem("notes") || "";
-            const storageNotesJson = JSON.parse(storageNotes);
-			res(storageNotesJson);
-        });
-	},
-	setNotes(notes: any) {
-		return new Promise((res, rej) => {
-            localStorage.setItem("notes", notes);
-			res(notes);
-        });
-	},
-    // addNote(note: any) {
-    //     return new Promise((res, rej) => {
-    //         return this.getNotes().then(allNotes => {
-	// 			allNotes.push(note);
-	// 			res(allNotes);
-	// 		})
-
-    //     });
-    // },
-	
+    getNotes() {
+        const storageNotes = localStorage.getItem("notes") || "[]";
+        return JSON.parse(storageNotes);
+    },
+    setNotes(notes: NoteType[]) {
+        localStorage.setItem("notes", JSON.stringify(notes));
+        return notes;
+    },
+    addNote(note: NoteType) {
+        const notes = this.getNotes();
+        notes.push(note);
+        this.setNotes(notes);
+        return notes;
+    },
+    removeNote(id: string) {
+        const notes = this.getNotes();
+        const filteredNote = notes.filter((note: NoteType) => note.id !== id);
+        if (filteredNote) {
+            this.setNotes(filteredNote);
+            return filteredNote;
+        } else {
+            return notes;
+        }
+    },
+    changeNote(note: NoteType) {
+        const notes = this.getNotes();
+        let foundedNote = notes.find((n: NoteType) => n.id === note.id);
+        if (foundedNote) {
+            foundedNote.content = note.content;
+            foundedNote.title = note.title;
+			this.setNotes(notes);
+        }
+        return notes;
+    },
 };
 
 export default NotesAPI;

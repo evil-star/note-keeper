@@ -4,10 +4,14 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "antd/dist/antd.dark.css";
 import "./index.sass";
+import store from "./store";
+import { Provider } from "react-redux";
 
 ReactDOM.render(
     <React.StrictMode>
-        <App />
+        <Provider store={store}>
+			<App />
+		</Provider>
     </React.StrictMode>,
     document.getElementById("root")
 );
