@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import AuthModal from "./components/AuthModal";
+import RegModal from "./components/RegModal";
 import Index from "./pages/Main";
 
 function App() {
@@ -10,6 +12,9 @@ function App() {
                     <Index />
                 </Route>
             </Switch>
+
+			<AuthModal /> 
+			<RegModal />
         </BrowserRouter>
     );
 }
